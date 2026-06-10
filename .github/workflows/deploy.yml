@@ -1,1 +1,85 @@
+name: Deploy Cofre Digital
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Instalar dependências
+        run: |
+          pip install -r app/requirements.txt
+          
+      - name: Simulação do Build da Imagem Docker
+        run: |
+          echo "🛠️ SIMULAÇÃO: Construindo imagem Docker..."
+          echo "➡️ O build REAL está comentado para fins didáticos."
+          echo "✔️ Build simulado concluído!"
+          
+      - name: Simulação do Login no Docker Hub
+        run: |
+          echo "🔐 SIMULAÇÃO: Realizando login no Docker Hub..."
+          echo "➡️ Secrets reais NÃO estão sendo usados."
+          echo "✔️ Login simulado com sucesso!"
+
+      - name: Simulação do Push da Imagem
+        run: |
+          echo "📦 SIMULAÇÃO: Enviando imagem para o Docker Hub..."
+          echo "➡️ Nenhuma imagem REAL está sendo enviada."
+          echo "✔️ Push simulado concluído!"
+
+      - name: Simulação do Deploy em Staging
+        run: |
+          echo "🚀 SIMULAÇÃO: Deploy em STAGING..."
+          echo "➡️ Secrets reais NÃO estão sendo usados."
+          echo "✔️ Deploy simulado em STAGING concluído!"
+
+      - name: Simulação do Deploy em Produção
+        run: |
+          echo "🚀 SIMULAÇÃO: Deploy em PRODUÇÃO..."
+          echo "➡️ Nenhum secret real está sendo utilizado."
+          echo "✔️ Deploy simulado em PRODUÇÃO concluído!"
+
+      - name: Simulação da Verificação de Segurança
+        run: |
+          echo "🔍 SIMULAÇÃO: Verificando vulnerabilidades..."
+          echo "➡️ Ferramentas reais como Trivy NÃO estão sendo executadas."
+          echo "➡️ Simulando análise de dependências..."
+          echo "✔️ Nenhuma vulnerabilidade crítica encontrada (simulado)."
+
+  test-simulation:
+    name: 🧪 Testes Simulados
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Executar test_local.sh
+        run: bash tests/test_local.sh
+
+  interactive-tests:
+    name: 🎮 Testes Interativos (Automático)
+    runs-on: ubuntu-latest
+    needs: test-simulation
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      # O script interativo espera input humano.
+      # Para rodar no Actions, enviamos a opção "6" automaticamente.
+      - name: Executar interactive_tests.sh (modo automático)
+        run: bash tests/interactive_tests_ci.sh
